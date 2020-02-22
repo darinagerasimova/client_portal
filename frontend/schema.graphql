@@ -1,0 +1,56 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+}
+
+type Query {
+    clients(
+        #Filter by fields
+        filter: FilterFindManyclientInput,
+        limit: Int = 1000,
+        skip: Int,
+        sort: SortFindManyclientInput
+    ): [client]
+}
+
+type client {
+    _id: MongoID!
+    address: String
+    name: String
+}
+
+enum SortFindManyclientInput {
+    _ID_ASC
+    _ID_DESC
+}
+
+input FilterFindManyclientInput {
+    AND: [FilterFindManyclientInput!]
+    OR: [FilterFindManyclientInput!]
+    _id: MongoID
+    _ids: [MongoID]
+    "List of *indexed* fields that can be filtered via operators."
+    _operators: OperatorsFilterFindManyclientInput
+    address: String
+    name: String
+}
+
+"For performance reason this type contains only *indexed* fields."
+input OperatorsFilterFindManyclientInput {
+    _id: _idOperatorsFilterFindManyclientInput
+}
+
+input _idOperatorsFilterFindManyclientInput {
+    gt: MongoID
+    gte: MongoID
+    in: [MongoID]
+    lt: MongoID
+    lte: MongoID
+    ne: MongoID
+    nin: [MongoID]
+}
+
+
+"The `ID` scalar type represents a unique MongoDB identifier in collection. MongoDB by default use 12-byte ObjectId value (https://docs.mongodb.com/manual/reference/bson-types/#objectid). But MongoDB also may accepts string or integer as correct values for _id field."
+scalar MongoID
