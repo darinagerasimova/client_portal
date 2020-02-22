@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import {composeWithMongoose} from "graphql-compose-mongoose";
+import pubsub from '../subscriptionConfig'
 import {ClientGQL} from "./Client";
 
 const Message = new mongoose.Schema({
@@ -20,7 +21,9 @@ ChatGQL.addResolver({
     type: 'String',
     args: {chatId: 'MongoID!', senderId: 'MongoID!', message: "String!"},
     resolve: async ({args}) => {
-        await Chat.updateOne({_id: args.chatId}, {$push: {messages: {senderId: args.senderId, message: args.message}}});
+        const messageId = mongoose.Types.ObjectId();
+        await Chat.updateOne({_id: args.chatId}, {$push: {messages: {_id: messageId, senderId: args.senderId, message: args.message}}});
+        pubsub.publish('messageAdded', { messageId });
         return null;
     }
 });

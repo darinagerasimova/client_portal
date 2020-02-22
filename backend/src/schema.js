@@ -11,12 +11,12 @@ schemaComposer.Mutation.addFields({
     addMessage: ChatGQL.getResolver('addMessage'),
 });
 schemaComposer.Subscription.addFields({
-    addMessage: {
-        type: 'chatMessages',
+    messageAdded: {
+        type: 'MongoID',
         resolve: payload => {
-            return payload.message;
+            return payload.messageId;
         },
-        subscribe: () => pubsub.asyncIterator('addMessage'),
+        subscribe: () => pubsub.asyncIterator('messageAdded'),
     },
 });
 

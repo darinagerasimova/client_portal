@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import moment from "moment";
 import {Card, CardBody, CardHeader, Col, Row} from 'reactstrap';
 import {useMutation, useQuery} from "@apollo/react-hooks";
 import {GET_CHAT} from "../../graphql/getChat";
 import {ADD_CHAT_MESSAGE} from "../../graphql/addChatMessage";
+import {SUBSCRIBE_MESSAGE_ADDED} from "../../graphql/subscribeMessageAdded";
 import './chat.css'
 
 const CURRENT_USER_ID = "5e480954a7b4b65adf453e2e";
@@ -11,7 +12,7 @@ const CURRENT_CHAT_ID = "5e515b05e907d28e8e59c4f0";
 
 export default function Chat() {
     const [message, setMessage] = useState("");
-    const {data, error, loading} = useQuery(GET_CHAT);
+    const {data, error, loading, subscribeToMore, refetch} = useQuery(GET_CHAT);
     const [addChatMessage] = useMutation(ADD_CHAT_MESSAGE);
     const sendMessage = () => {
         addChatMessage({
@@ -22,6 +23,18 @@ export default function Chat() {
             }
         }).then(() => setMessage(""));
     };
+    const subscribeToNewMessages = () => {
+        subscribeToMore({
+            document: SUBSCRIBE_MESSAGE_ADDED,
+            updateQuery: (prev, {subscriptionData}) => {
+                refetch();
+                return prev;
+            }
+        });
+    };
+    useEffect(() => {
+        subscribeToNewMessages()
+    }, []);
     return (
         <div className="animated fadeIn">
             <Row>
