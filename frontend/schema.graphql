@@ -1,113 +1,118 @@
 # This file was generated based on ".graphqlconfig". Do not edit manually.
 
 schema {
-  query: Query
+    query: Query
+    mutation: Mutation
+}
+
+type Mutation {
+    addMessage(chatId: MongoID!, message: String!, senderId: MongoID!): String
 }
 
 type Query {
-  chats(
-    #Filter by fields
-    filter: FilterFindManychatInput,
-    limit: Int = 1000,
-    skip: Int,
-    sort: SortFindManychatInput
-  ): [chat]
-  clients(
-    #Filter by fields
-    filter: FilterFindManyclientInput,
-    limit: Int = 1000,
-    skip: Int,
-    sort: SortFindManyclientInput
-  ): [client]
+    chats(
+        #Filter by fields
+        filter: FilterFindManychatInput,
+        limit: Int = 1000,
+        skip: Int,
+        sort: SortFindManychatInput
+    ): [chat]
+    clients(
+        #Filter by fields
+        filter: FilterFindManyclientInput,
+        limit: Int = 1000,
+        skip: Int,
+        sort: SortFindManyclientInput
+    ): [client]
 }
 
 type chat {
-  _id: MongoID!
-  messages: [chatMessages]
+    _id: MongoID!
+    messages: [chatMessages]
 }
 
 type chatMessages {
-  _id: MongoID
-  createdAt: Date
-  message: String
-  sender: client
-  senderId: MongoID
-  updatedAt: Date
+    _id: MongoID
+    createdAt: Date
+    message: String
+    sender: client
+    senderId: MongoID
+    updatedAt: Date
 }
 
 type client {
-  _id: MongoID!
-  address: String
-  name: String
+    _id: MongoID!
+    address: String
+    name: String
 }
 
 enum SortFindManychatInput {
-  _ID_ASC
-  _ID_DESC
+    _ID_ASC
+    _ID_DESC
 }
 
 enum SortFindManyclientInput {
-  _ID_ASC
-  _ID_DESC
+    _ID_ASC
+    _ID_DESC
 }
 
 input FilterFindManychatInput {
-  AND: [FilterFindManychatInput!]
-  OR: [FilterFindManychatInput!]
-  _id: MongoID
-  _ids: [MongoID]
-  "List of *indexed* fields that can be filtered via operators."
-  _operators: OperatorsFilterFindManychatInput
-  messages: [chatMessagesInput]
+    AND: [FilterFindManychatInput!]
+    OR: [FilterFindManychatInput!]
+    _id: MongoID
+    _ids: [MongoID]
+    "List of *indexed* fields that can be filtered via operators."
+    _operators: OperatorsFilterFindManychatInput
+    messages: [chatMessagesInput]
 }
 
 input FilterFindManyclientInput {
-  AND: [FilterFindManyclientInput!]
-  OR: [FilterFindManyclientInput!]
-  _id: MongoID
-  _ids: [MongoID]
-  "List of *indexed* fields that can be filtered via operators."
-  _operators: OperatorsFilterFindManyclientInput
-  address: String
-  name: String
+    AND: [FilterFindManyclientInput!]
+    OR: [FilterFindManyclientInput!]
+    _id: MongoID
+    _ids: [MongoID]
+    "List of *indexed* fields that can be filtered via operators."
+    _operators: OperatorsFilterFindManyclientInput
+    address: String
+    name: String
 }
 
 "For performance reason this type contains only *indexed* fields."
 input OperatorsFilterFindManychatInput {
-  _id: _idOperatorsFilterFindManychatInput
+    _id: _idOperatorsFilterFindManychatInput
 }
 
 "For performance reason this type contains only *indexed* fields."
 input OperatorsFilterFindManyclientInput {
-  _id: _idOperatorsFilterFindManyclientInput
+    _id: _idOperatorsFilterFindManyclientInput
 }
 
 input _idOperatorsFilterFindManychatInput {
-  gt: MongoID
-  gte: MongoID
-  in: [MongoID]
-  lt: MongoID
-  lte: MongoID
-  ne: MongoID
-  nin: [MongoID]
+    gt: MongoID
+    gte: MongoID
+    in: [MongoID]
+    lt: MongoID
+    lte: MongoID
+    ne: MongoID
+    nin: [MongoID]
 }
 
 input _idOperatorsFilterFindManyclientInput {
-  gt: MongoID
-  gte: MongoID
-  in: [MongoID]
-  lt: MongoID
-  lte: MongoID
-  ne: MongoID
-  nin: [MongoID]
+    gt: MongoID
+    gte: MongoID
+    in: [MongoID]
+    lt: MongoID
+    lte: MongoID
+    ne: MongoID
+    nin: [MongoID]
 }
 
 input chatMessagesInput {
-  _id: MongoID
-  createdAt: Date
-  message: String
-  senderId: MongoID
-  updatedAt: Date
+    _id: MongoID
+    createdAt: Date
+    message: String
+    senderId: MongoID
+    updatedAt: Date
 }
 
 

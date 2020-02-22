@@ -1,8 +1,11 @@
 import React from 'react';
+import moment from "moment";
 import {Card, CardBody, CardHeader, Col, Row} from 'reactstrap';
 import {useQuery} from "@apollo/react-hooks";
 import {GET_CHAT} from "../../graphql/getChat";
 import './chat.css'
+
+const CURRENT_USER_ID = "5e480954a7b4b65adf453e2e";
 
 export default function Chat() {
     const {data, error, loading} = useQuery(GET_CHAT);
@@ -126,57 +129,32 @@ export default function Chat() {
                                         {/*                            </div>*/}
                                         {/*                        </div>*/}
                                         <div className="mesgs">
-                                            <div className="msg_history">
-                                                <div className="incoming_msg">
-                                                    <div className="incoming_msg_img"><img
-                                                        src="https://ptetutorials.com/images/user-profile.png"
-                                                        alt="sunil"/></div>
-                                                    <div className="received_msg">
-                                                        <div className="received_withd_msg">
-                                                            <p>Test which is a new approach to have all
-                                                                solutions</p>
-                                                            <span className="time_date"> 11:01 AM    |    June 9</span>
-                                                        </div>
-                                                    </div>
+                                            {!loading && !error ?
+                                                <div className="msg_history">
+                                                    {data.chats[0].messages.map(message =>
+                                                        message.sender._id === CURRENT_USER_ID ?
+                                                            <div className="outgoing_msg">
+                                                                <div className="sent_msg">
+                                                                    <p>{message.message}</p>
+                                                                    <span
+                                                                        className="time_date"> {moment(message.createdAt).format("HH:mm  |  MMMM D")}</span>
+                                                                </div>
+                                                            </div> :
+                                                            <div className="incoming_msg">
+                                                                <div className="incoming_msg_img"><img
+                                                                    src="https://ptetutorials.com/images/user-profile.png"
+                                                                    alt="sunil"/></div>
+                                                                <div className="received_msg">
+                                                                    <div className="received_withd_msg">
+                                                                        <p>{message.message}</p>
+                                                                        <span
+                                                                            className="time_date"> {moment(message.createdAt).format("HH:mm  |  MMMM D")}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    )}
                                                 </div>
-                                                <div className="outgoing_msg">
-                                                    <div className="sent_msg">
-                                                        <p>Test which is a new approach to have all
-                                                            solutions</p>
-                                                        <span className="time_date"> 11:01 AM    |    June 9</span>
-                                                    </div>
-                                                </div>
-                                                <div className="incoming_msg">
-                                                    <div className="incoming_msg_img"><img
-                                                        src="https://ptetutorials.com/images/user-profile.png"
-                                                        alt="sunil"/></div>
-                                                    <div className="received_msg">
-                                                        <div className="received_withd_msg">
-                                                            <p>Test, which is a new approach to have</p>
-                                                            <span
-                                                                className="time_date"> 11:01 AM    |    Yesterday</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="outgoing_msg">
-                                                    <div className="sent_msg">
-                                                        <p>Apollo University, Delhi, India Test</p>
-                                                        <span className="time_date"> 11:01 AM    |    Today</span></div>
-                                                </div>
-                                                <div className="incoming_msg">
-                                                    <div className="incoming_msg_img"><img
-                                                        src="https://ptetutorials.com/images/user-profile.png"
-                                                        alt="sunil"/></div>
-                                                    <div className="received_msg">
-                                                        <div className="received_withd_msg">
-                                                            <p>We work directly with our designers and suppliers,
-                                                                and sell direct to you, which means quality, exclusive
-                                                                products, at a price anyone can afford.</p>
-                                                            <span className="time_date"> 11:01 AM    |    Today</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                : <div/>}
                                             <div className="type_msg">
                                                 <div className="input_msg_write">
                                                     <input type="text" className="write_msg"
