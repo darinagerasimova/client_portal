@@ -1,14 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import moment from "moment";
 import {Card, CardBody, CardHeader, Col, Row} from 'reactstrap';
-import {useQuery} from "@apollo/react-hooks";
+import {useMutation, useQuery} from "@apollo/react-hooks";
 import {GET_CHAT} from "../../graphql/getChat";
+import {ADD_CHAT_MESSAGE} from "../../graphql/addChatMessage";
 import './chat.css'
 
 const CURRENT_USER_ID = "5e480954a7b4b65adf453e2e";
+const CURRENT_CHAT_ID = "5e515b05e907d28e8e59c4f0";
 
 export default function Chat() {
+    const [message, setMessage] = useState("");
     const {data, error, loading} = useQuery(GET_CHAT);
+    const [addChatMessage] = useMutation(ADD_CHAT_MESSAGE);
+    const sendMessage = () => {
+        addChatMessage({
+            variables: {
+                chatId: CURRENT_CHAT_ID,
+                senderId: CURRENT_USER_ID,
+                message,
+            }
+        }).then(() => setMessage(""));
+    };
     return (
         <div className="animated fadeIn">
             <Row>
@@ -157,10 +170,15 @@ export default function Chat() {
                                                 : <div/>}
                                             <div className="type_msg">
                                                 <div className="input_msg_write">
-                                                    <input type="text" className="write_msg"
+                                                    <input type="text"
+                                                           className="write_msg"
+                                                           name="message"
+                                                           value={message}
+                                                           onChange={(e) => setMessage(e.target.value)}
                                                            placeholder="Type a message"/>
-                                                    <button className="msg_send_btn" type="button"><i
-                                                        className="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                                                    <button className="msg_send_btn" type="button"
+                                                            onClick={sendMessage}><i className="fa fa-paper-plane-o"
+                                                                                     aria-hidden="true"/></button>
                                                 </div>
                                             </div>
                                         </div>
