@@ -5,5 +5,8 @@ schemaComposer.Query.addFields({
    clients: ClientGQL.getResolver('findMany'),
    chats: ChatGQL.getResolver('findMany'),
 });
+schemaComposer.Mutation.addFields({
+   addMessage: ChatGQL.getResolver('addMessage'),
+});
 
 export default schemaComposer.buildSchema();

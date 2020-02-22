@@ -13,9 +13,17 @@ export const Chat = mongoose.model('chat', new mongoose.Schema({
     messages: [Message]
 }));
 
-Chat.create({messages: [{senderId: "5e480954a7b4b65adf453e2e", message: "test"}]});
-
 const ChatGQL = composeWithMongoose(Chat, {});
+
+ChatGQL.addResolver({
+    name: 'addMessage',
+    type: 'String',
+    args: {chatId: 'MongoID!', senderId: 'MongoID!', message: "String!"},
+    resolve: async ({args}) => {
+        await Chat.updateOne({_id: args.chatId}, {$push: {messages: {senderId: args.senderId, message: args.message}}});
+        return null;
+    }
+});
 
 const MessageGQL = ChatGQL.getFieldTC('messages');
 MessageGQL.addRelation(
