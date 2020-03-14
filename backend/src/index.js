@@ -4,11 +4,14 @@ import {ApolloServer} from "apollo-server-express";
 import schema from "./schema";
 
 require('./mongoConfig');
+require('./config/configPassport');
 
 const port = 5500;
 const app = express();
 
-const server = new ApolloServer({schema});
+const server = new ApolloServer({
+    schema, context: ({req, res}) => ({req, res}),
+});
 server.applyMiddleware({app});
 
 const httpServer = http.createServer(app);
