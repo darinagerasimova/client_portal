@@ -6,8 +6,13 @@ schema {
     subscription: Subscription
 }
 
+type LoginData {
+    accessToken: String
+}
+
 type Mutation {
-    addMessage(chatId: MongoID!, message: String!, senderId: MongoID!): String
+    addMessage(chatId: MongoID!, message: String!): String
+    login(password: String!, username: String!): LoginData
 }
 
 type Query {
@@ -25,6 +30,7 @@ type Query {
         skip: Int,
         sort: SortFindManyclientInput
     ): [client]
+    me: user
 }
 
 type Subscription {
@@ -40,7 +46,7 @@ type chatMessages {
     _id: MongoID
     createdAt: Date
     message: String
-    sender: client
+    sender: user
     senderId: MongoID
     updatedAt: Date
 }
@@ -49,6 +55,11 @@ type client {
     _id: MongoID!
     address: String
     name: String
+}
+
+type user {
+    _id: MongoID!
+    username: String
 }
 
 enum SortFindManychatInput {

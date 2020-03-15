@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { ApolloProvider } from '@apollo/react-hooks';
 import client from "./config/configApollo";
+import Login from "./views/Login/Login";
 import './App.scss';
 
 const loading = () => <div className="animated fadeIn pt-3 text-center">Loading...</div>;
@@ -9,8 +10,6 @@ const loading = () => <div className="animated fadeIn pt-3 text-center">Loading.
 // Containers
 const DefaultLayout = React.lazy(() => import('./containers/DefaultLayout/DefaultLayout'));
 
-// Pages
-const Login = React.lazy(() => import('./views/Pages/Login'));
 const Register = React.lazy(() => import('./views/Pages/Register'));
 const Page404 = React.lazy(() => import('./views/Pages/Page404'));
 const Page500 = React.lazy(() => import('./views/Pages/Page500'));

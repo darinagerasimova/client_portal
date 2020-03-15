@@ -5,6 +5,15 @@ export const User = mongoose.model('user', new mongoose.Schema({
     username: 'string',
 }));
 
-// User.create({username: "test"});
+const UserGQL = composeWithMongoose(User, {});
 
-export const UserGQL = composeWithMongoose(User, {});
+UserGQL.addResolver({
+    kind: 'query',
+    name: 'me',
+    type: 'user',
+    resolve: async ({context}) => {
+        return await User.findById(context._user._id).exec();
+    }
+});
+
+export {UserGQL};

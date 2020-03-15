@@ -31,6 +31,19 @@ const link = split(
     httpLink,
 );
 
+const authMiddleware = new ApolloLink((operation, forward) => {
+
+    const token = localStorage.getItem('accessToken');
+    operation.setContext({
+        headers: {
+            authorization: token ? 'JWT ' + token : null
+        }
+    });
+    return forward(operation);
+});
+
+
+
 const client = new ApolloClient({
     link: ApolloLink.from([
         onError(({graphQLErrors, networkError}) => {
@@ -42,6 +55,7 @@ const client = new ApolloClient({
                 );
             if (networkError) console.log(`[Network error]: ${networkError}`);
         }),
+        authMiddleware,
         link
     ]),
     cache: new InMemoryCache()

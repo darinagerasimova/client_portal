@@ -3,14 +3,16 @@ import passport from 'passport'
 import {ClientGQL} from "./models/Client";
 import {ChatGQL} from "./models/Chat";
 import {LoginGQL} from "./shemaTypes/login";
+import {UserGQL} from "./models/User";
 import pubsub from './subscriptionConfig'
 
 const authMiddleware = async (resolve, source, args, context, info) => {
     try {
-        await new Promise((_resolve, reject) => passport.authenticate('jwt', {session: false}, (err, user) => {
+        const user = await new Promise((_resolve, reject) => passport.authenticate('jwt', {session: false}, (err, user) => {
             if (err || !user) reject('Invalid token');
-            _resolve();
+            _resolve(user);
         })(context.req, context.res));
+        context._user = user;
         return await resolve(source, args, context, info);
     } catch (e) {
         throw new Error(e);
@@ -20,9 +22,10 @@ const authMiddleware = async (resolve, source, args, context, info) => {
 schemaComposer.Query.addFields({
     clients: ClientGQL.getResolver('findMany'),
     chats: ChatGQL.getResolver('findMany', [authMiddleware]),
+    me: UserGQL.getResolver('me', [authMiddleware]),
 });
 schemaComposer.Mutation.addFields({
-    addMessage: ChatGQL.getResolver('addMessage'),
+    addMessage: ChatGQL.getResolver('addMessage', [authMiddleware]),
     login: LoginGQL.getResolver('login'),
 });
 schemaComposer.Subscription.addFields({

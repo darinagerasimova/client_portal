@@ -7,7 +7,6 @@ import {ADD_CHAT_MESSAGE} from "../../graphql/addChatMessage";
 import {SUBSCRIBE_MESSAGE_ADDED} from "../../graphql/subscribeMessageAdded";
 import './chat.css'
 
-const CURRENT_USER_ID = "5e480954a7b4b65adf453e2e";
 const CURRENT_CHAT_ID = "5e515b05e907d28e8e59c4f0";
 
 export default function Chat() {
@@ -18,7 +17,6 @@ export default function Chat() {
         addChatMessage({
             variables: {
                 chatId: CURRENT_CHAT_ID,
-                senderId: CURRENT_USER_ID,
                 message,
             }
         }).then(() => setMessage(""));
@@ -158,7 +156,7 @@ export default function Chat() {
                                             {!loading && !error ?
                                                 <div className="msg_history">
                                                     {data.chats[0].messages.map(message =>
-                                                        message.sender._id === CURRENT_USER_ID ?
+                                                        message.sender._id === data.me._id ?
                                                             <div className="outgoing_msg">
                                                                 <div className="sent_msg">
                                                                     <p>{message.message}</p>
