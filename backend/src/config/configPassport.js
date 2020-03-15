@@ -1,15 +1,15 @@
 import passport from 'passport';
 import {Strategy as LocalStrategy} from 'passport-local';
 import {Strategy as JWTStrategy, ExtractJwt} from 'passport-jwt'
-import {User} from "../models/User";
+import {User, validatePassword} from "../models/User";
 
 passport.use(new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password'
     }, (username, password, done) => {
-        User.findOne({username: username}).exec().then(user => {
+        User.findOne({username: username}).exec().then(async user => {
             if (!user) return done(null, false);
-            // if (!user.verifyPassword(password)) return done(null, false);
+            if (!(await validatePassword(user, password))) return done(null, false);
             return done(null, user)
         }).catch(e => done(e));
     }
