@@ -153,7 +153,17 @@ export default {
     {
       name: 'Чат',
       url: '/chat',
-      icon: 'icon-user',
+      icon: 'icon-bubbles',
+    },
+    {
+      name: 'Пользователи',
+      url: '/users',
+      icon: 'icon-people',
+    },
+    {
+      name: 'Проекты',
+      url: '/projects',
+      icon: 'icon-docs',
     },
     // {
     //   name: 'Icons',

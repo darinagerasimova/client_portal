@@ -3,6 +3,7 @@ import passport from 'passport'
 import {ChatGQL} from "./models/Chat";
 import {LoginGQL} from "./shemaTypes/login";
 import {UserGQL} from "./models/User";
+import {ProjectGQL} from "./models/Project";
 import pubsub from './subscriptionConfig'
 
 const authMiddleware = async (resolve, source, args, context, info) => {
@@ -19,7 +20,10 @@ const authMiddleware = async (resolve, source, args, context, info) => {
 };
 
 schemaComposer.Query.addFields({
+    projects: ProjectGQL.getResolver('findMany'),
+    project: ProjectGQL.getResolver('findById'),
     users: UserGQL.getResolver('findMany'),
+    user: UserGQL.getResolver('findById'),
     chats: ChatGQL.getResolver('findMany', [authMiddleware]),
     me: UserGQL.getResolver('me', [authMiddleware]),
 });

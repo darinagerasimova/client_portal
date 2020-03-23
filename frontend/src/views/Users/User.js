@@ -1,46 +1,48 @@
-import React, { Component } from 'react';
-import { Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
+import React, {Component} from 'react';
+import {Badge, Card, CardBody, CardHeader, Col, Row, Table} from 'reactstrap';
+import {useQuery} from "@apollo/react-hooks";
+import {GET_USER} from "../../graphql/getUser";
+import moment from "moment";
 
-import usersData from './UsersData'
-
-class User extends Component {
-
-  render() {
-
-    const user = usersData.find( user => user.id.toString() === this.props.match.params.id)
-
-    const userDetails = user ? Object.entries(user) : [['id', (<span><i className="text-muted icon-ban"></i> Not found</span>)]]
-
+export default function User(props) {
+    const {loading, error, data} = useQuery(GET_USER, {variables: {_id: props.match.params.id}});
     return (
-      <div className="animated fadeIn">
-        <Row>
-          <Col lg={6}>
-            <Card>
-              <CardHeader>
-                <strong><i className="icon-info pr-1"></i>User id: {this.props.match.params.id}</strong>
-              </CardHeader>
-              <CardBody>
-                  <Table responsive striped hover>
-                    <tbody>
-                      {
-                        userDetails.map(([key, value]) => {
-                          return (
-                            <tr key={key}>
-                              <td>{`${key}:`}</td>
-                              <td><strong>{value}</strong></td>
-                            </tr>
-                          )
-                        })
-                      }
-                    </tbody>
-                  </Table>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+        <div className="animated fadeIn">
+            <Row>
+                <Col lg={6}>
+                    <Card>
+                        {!loading && !error &&
+                        <>
+                            <CardHeader>
+                                <strong><i className="icon-info pr-1"></i>{data.user.fullname}</strong>
+                            </CardHeader>
+                            <CardBody>
+                                <Table responsive hover>
+                                    <tbody>
+                                    <tr>
+                                        <td>Логин</td>
+                                        <td>{data.user.username}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Дата регистрации</td>
+                                        <td>{moment(data.user.createdAt).format("DD.MM.YYYY HH:mm")}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Роль</td>
+                                        <td>{data.user.type === 0 ? 'Сотрудник' : 'Клиент'}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Статус</td>
+                                        <td><Badge color={'success'}>Активен</Badge></td>
+                                    </tr>
+                                    </tbody>
+                                </Table>
+                            </CardBody>
+                        </>
+                        }
+                    </Card>
+                </Col>
+            </Row>
+        </div>
     )
-  }
 }
-
-export default User;

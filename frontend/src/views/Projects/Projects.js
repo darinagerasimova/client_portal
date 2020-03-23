@@ -2,45 +2,47 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Badge, Card, CardBody, CardHeader, Col, Row, Table} from 'reactstrap';
 import {useQuery} from "@apollo/react-hooks";
-import {GET_USERS} from "../../graphql/getUsers";
+import {GET_PROJECTS} from "../../graphql/getProjects";
 import moment from "moment";
 
-function UserRow(props) {
-    const user = props.user;
-    const userLink = `/users/${user._id}`;
+function ProjectRow(props) {
+    const project = props.project;
+    const projectLink = `/projects/${project._id}`;
     return (
-        <tr key={user._id}>
-            <td><Link to={userLink}>{user.fullname}</Link></td>
-            <td>{moment(user.createdAt).format("DD.MM.YYYY HH:mm")}</td>
-            <td>{user.type === 0 ? 'Сотрудник' : 'Клиент'}</td>
-            <td><Link to={userLink}><Badge color={'success'}>Активен</Badge></Link></td>
+        <tr key={project._id}>
+            <td><Link to={projectLink}>{project.name}</Link></td>
+            <td/>
+            <td/>
+            <td/>
+            <td><Link to={projectLink}><Badge color={'success'}>Активен</Badge></Link></td>
         </tr>
     )
 }
 
-export function Users(props) {
-    const {loading, error, data} = useQuery(GET_USERS);
+export function Projects(props) {
+    const {loading, error, data} = useQuery(GET_PROJECTS);
     return (
         <div className="animated fadeIn">
             <Row>
-                <Col xl={6}>
+                <Col xl={12}>
                     <Card>
                         <CardHeader>
-                            <i className="fa fa-align-justify"></i> Пользователи
+                            <i className="fa fa-align-justify"></i> Проекты
                         </CardHeader>
                         <CardBody>
                             {!loading && !error &&
                             <Table responsive hover>
                                 <thead>
                                 <tr>
-                                    <th scope="col">Полное имя</th>
-                                    <th scope="col">Дата регистрации</th>
-                                    <th scope="col">Роль</th>
+                                    <th scope="col">Название</th>
+                                    <th scope="col">Дата начала</th>
+                                    <th scope="col">Дата окончания</th>
+                                    <th scope="col">Этап</th>
                                     <th scope="col">Статус</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {data.users.map((user) => <UserRow key={user._id} user={user}/>)}
+                                {data.projects.map((project) => <ProjectRow key={project._id} project={project}/>)}
                                 </tbody>
                             </Table>
                             }
@@ -52,4 +54,4 @@ export function Users(props) {
     )
 }
 
-export default Users;
+export default Projects;

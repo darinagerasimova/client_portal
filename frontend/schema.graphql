@@ -24,6 +24,15 @@ type Query {
         sort: SortFindManychatInput
     ): [chat]
     me: user
+    project(_id: MongoID!): project
+    projects(
+        #Filter by fields
+        filter: FilterFindManyprojectInput,
+        limit: Int = 1000,
+        skip: Int,
+        sort: SortFindManyprojectInput
+    ): [project]
+    user(_id: MongoID!): user
     users(
         #Filter by fields
         filter: FilterFindManyuserInput,
@@ -51,6 +60,34 @@ type chatMessages {
     updatedAt: Date
 }
 
+type project {
+    _id: MongoID!
+    createdAt: Date
+    name: String
+    participantIds: [MongoID]
+    participants(limit: Int = 1000, sort: SortFindByIdsuserInput): [user]
+    steps: [projectSteps]
+    updatedAt: Date
+}
+
+type projectSteps {
+    _id: MongoID
+    createdAt: Date
+    dateEnd: Date
+    dateStart: Date
+    name: String
+    stories: [projectStepsStories]
+    updatedAt: Date
+}
+
+type projectStepsStories {
+    _id: MongoID
+    createdAt: Date
+    estimate: Float
+    name: String
+    updatedAt: Date
+}
+
 type user {
     _id: MongoID!
     createdAt: Date
@@ -61,7 +98,17 @@ type user {
     username: String
 }
 
+enum SortFindByIdsuserInput {
+    _ID_ASC
+    _ID_DESC
+}
+
 enum SortFindManychatInput {
+    _ID_ASC
+    _ID_DESC
+}
+
+enum SortFindManyprojectInput {
     _ID_ASC
     _ID_DESC
 }
@@ -79,6 +126,20 @@ input FilterFindManychatInput {
     "List of *indexed* fields that can be filtered via operators."
     _operators: OperatorsFilterFindManychatInput
     messages: [chatMessagesInput]
+}
+
+input FilterFindManyprojectInput {
+    AND: [FilterFindManyprojectInput!]
+    OR: [FilterFindManyprojectInput!]
+    _id: MongoID
+    _ids: [MongoID]
+    "List of *indexed* fields that can be filtered via operators."
+    _operators: OperatorsFilterFindManyprojectInput
+    createdAt: Date
+    name: String
+    participantIds: [MongoID]
+    steps: [projectStepsInput]
+    updatedAt: Date
 }
 
 input FilterFindManyuserInput {
@@ -102,11 +163,26 @@ input OperatorsFilterFindManychatInput {
 }
 
 "For performance reason this type contains only *indexed* fields."
+input OperatorsFilterFindManyprojectInput {
+    _id: _idOperatorsFilterFindManyprojectInput
+}
+
+"For performance reason this type contains only *indexed* fields."
 input OperatorsFilterFindManyuserInput {
     _id: _idOperatorsFilterFindManyuserInput
 }
 
 input _idOperatorsFilterFindManychatInput {
+    gt: MongoID
+    gte: MongoID
+    in: [MongoID]
+    lt: MongoID
+    lte: MongoID
+    ne: MongoID
+    nin: [MongoID]
+}
+
+input _idOperatorsFilterFindManyprojectInput {
     gt: MongoID
     gte: MongoID
     in: [MongoID]
@@ -131,6 +207,24 @@ input chatMessagesInput {
     createdAt: Date
     message: String
     senderId: MongoID
+    updatedAt: Date
+}
+
+input projectStepsInput {
+    _id: MongoID
+    createdAt: Date
+    dateEnd: Date
+    dateStart: Date
+    name: String
+    stories: [projectStepsStoriesInput]
+    updatedAt: Date
+}
+
+input projectStepsStoriesInput {
+    _id: MongoID
+    createdAt: Date
+    estimate: Float
+    name: String
     updatedAt: Date
 }
 
