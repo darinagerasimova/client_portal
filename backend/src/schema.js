@@ -1,6 +1,5 @@
 import {schemaComposer} from "graphql-compose";
 import passport from 'passport'
-import {ClientGQL} from "./models/Client";
 import {ChatGQL} from "./models/Chat";
 import {LoginGQL} from "./shemaTypes/login";
 import {UserGQL} from "./models/User";
@@ -20,7 +19,7 @@ const authMiddleware = async (resolve, source, args, context, info) => {
 };
 
 schemaComposer.Query.addFields({
-    clients: ClientGQL.getResolver('findMany'),
+    users: UserGQL.getResolver('findMany'),
     chats: ChatGQL.getResolver('findMany', [authMiddleware]),
     me: UserGQL.getResolver('me', [authMiddleware]),
 });

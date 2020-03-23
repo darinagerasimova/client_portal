@@ -1,70 +1,55 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Badge, Card, CardBody, CardHeader, Col, Row, Table } from 'reactstrap';
-
-import usersData from './UsersData'
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {Badge, Card, CardBody, CardHeader, Col, Row, Table} from 'reactstrap';
+import {useQuery} from "@apollo/react-hooks";
+import {GET_USERS} from "../../graphql/getUsers";
+import moment from "moment";
 
 function UserRow(props) {
-  const user = props.user
-  const userLink = `/users/${user.id}`
-
-  const getBadge = (status) => {
-    return status === 'Active' ? 'success' :
-      status === 'Inactive' ? 'secondary' :
-        status === 'Pending' ? 'warning' :
-          status === 'Banned' ? 'danger' :
-            'primary'
-  }
-
-  return (
-    <tr key={user.id.toString()}>
-      <th scope="row"><Link to={userLink}>{user.id}</Link></th>
-      <td><Link to={userLink}>{user.name}</Link></td>
-      <td>{user.registered}</td>
-      <td>{user.role}</td>
-      <td><Link to={userLink}><Badge color={getBadge(user.status)}>{user.status}</Badge></Link></td>
-    </tr>
-  )
+    const user = props.user;
+    const userLink = `/users/${user._id}`;
+    return (
+        <tr key={user._id}>
+            <td><Link to={userLink}>{user.fullname}</Link></td>
+            <td>{moment(user.createdAt).format("DD.MM.YYYY HH:mm")}</td>
+            <td>{user.type === 0 ? 'Сотрудник' : 'Клиент'}</td>
+            <td><Link to={userLink}><Badge color={'success'}>Активен</Badge></Link></td>
+        </tr>
+    )
 }
 
-class Users extends Component {
-
-  render() {
-
-    const userList = usersData.filter((user) => user.id < 10)
-
+export function Users(props) {
+    const {loading, error, data} = useQuery(GET_USERS);
     return (
-      <div className="animated fadeIn">
-        <Row>
-          <Col xl={6}>
-            <Card>
-              <CardHeader>
-                <i className="fa fa-align-justify"></i> Users <small className="text-muted">example</small>
-              </CardHeader>
-              <CardBody>
-                <Table responsive hover>
-                  <thead>
-                    <tr>
-                      <th scope="col">id</th>
-                      <th scope="col">name</th>
-                      <th scope="col">registered</th>
-                      <th scope="col">role</th>
-                      <th scope="col">status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {userList.map((user, index) =>
-                      <UserRow key={index} user={user}/>
-                    )}
-                  </tbody>
-                </Table>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </div>
+        <div className="animated fadeIn">
+            <Row>
+                <Col xl={6}>
+                    <Card>
+                        <CardHeader>
+                            <i className="fa fa-align-justify"></i> Пользователи
+                        </CardHeader>
+                        <CardBody>
+                            {!loading && !error &&
+                            <Table responsive hover>
+                                <thead>
+                                <tr>
+                                    <th scope="col">Полное имя</th>
+                                    <th scope="col">Дата регистрации</th>
+                                    <th scope="col">Роль</th>
+                                    <th scope="col">Статус</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {data.users.map((user) => <UserRow key={user._id} user={user}/>)}
+                                </tbody>
+                            </Table>
+                            }
+                        </CardBody>
+                    </Card>
+                </Col>
+            </Row>
+        </div>
     )
-  }
 }
 
 export default Users;

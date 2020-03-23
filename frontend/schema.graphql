@@ -23,14 +23,14 @@ type Query {
         skip: Int,
         sort: SortFindManychatInput
     ): [chat]
-    clients(
+    me: user
+    users(
         #Filter by fields
-        filter: FilterFindManyclientInput,
+        filter: FilterFindManyuserInput,
         limit: Int = 1000,
         skip: Int,
-        sort: SortFindManyclientInput
-    ): [client]
-    me: user
+        sort: SortFindManyuserInput
+    ): [user]
 }
 
 type Subscription {
@@ -51,14 +51,13 @@ type chatMessages {
     updatedAt: Date
 }
 
-type client {
-    _id: MongoID!
-    address: String
-    name: String
-}
-
 type user {
     _id: MongoID!
+    createdAt: Date
+    fullname: String
+    password: String
+    type: Float
+    updatedAt: Date
     username: String
 }
 
@@ -67,7 +66,7 @@ enum SortFindManychatInput {
     _ID_DESC
 }
 
-enum SortFindManyclientInput {
+enum SortFindManyuserInput {
     _ID_ASC
     _ID_DESC
 }
@@ -82,15 +81,19 @@ input FilterFindManychatInput {
     messages: [chatMessagesInput]
 }
 
-input FilterFindManyclientInput {
-    AND: [FilterFindManyclientInput!]
-    OR: [FilterFindManyclientInput!]
+input FilterFindManyuserInput {
+    AND: [FilterFindManyuserInput!]
+    OR: [FilterFindManyuserInput!]
     _id: MongoID
     _ids: [MongoID]
     "List of *indexed* fields that can be filtered via operators."
-    _operators: OperatorsFilterFindManyclientInput
-    address: String
-    name: String
+    _operators: OperatorsFilterFindManyuserInput
+    createdAt: Date
+    fullname: String
+    password: String
+    type: Float
+    updatedAt: Date
+    username: String
 }
 
 "For performance reason this type contains only *indexed* fields."
@@ -99,8 +102,8 @@ input OperatorsFilterFindManychatInput {
 }
 
 "For performance reason this type contains only *indexed* fields."
-input OperatorsFilterFindManyclientInput {
-    _id: _idOperatorsFilterFindManyclientInput
+input OperatorsFilterFindManyuserInput {
+    _id: _idOperatorsFilterFindManyuserInput
 }
 
 input _idOperatorsFilterFindManychatInput {
@@ -113,7 +116,7 @@ input _idOperatorsFilterFindManychatInput {
     nin: [MongoID]
 }
 
-input _idOperatorsFilterFindManyclientInput {
+input _idOperatorsFilterFindManyuserInput {
     gt: MongoID
     gte: MongoID
     in: [MongoID]
