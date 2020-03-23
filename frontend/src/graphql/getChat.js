@@ -1,11 +1,11 @@
 import {gql} from 'graphql.macro';
 
 export const GET_CHAT = gql`
-    query getChat {
+    query getChat($_id: MongoID!) {
         me {
             _id
         }
-        chats {
+        chat(_id: $_id) {
             _id
             messages {
                 _id

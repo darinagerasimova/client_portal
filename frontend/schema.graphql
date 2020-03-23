@@ -16,13 +16,7 @@ type Mutation {
 }
 
 type Query {
-    chats(
-        #Filter by fields
-        filter: FilterFindManychatInput,
-        limit: Int = 1000,
-        skip: Int,
-        sort: SortFindManychatInput
-    ): [chat]
+    chat(_id: MongoID!): chat
     me: user
     project(_id: MongoID!): project
     projects(
@@ -103,11 +97,6 @@ enum SortFindByIdsuserInput {
     _ID_DESC
 }
 
-enum SortFindManychatInput {
-    _ID_ASC
-    _ID_DESC
-}
-
 enum SortFindManyprojectInput {
     _ID_ASC
     _ID_DESC
@@ -116,16 +105,6 @@ enum SortFindManyprojectInput {
 enum SortFindManyuserInput {
     _ID_ASC
     _ID_DESC
-}
-
-input FilterFindManychatInput {
-    AND: [FilterFindManychatInput!]
-    OR: [FilterFindManychatInput!]
-    _id: MongoID
-    _ids: [MongoID]
-    "List of *indexed* fields that can be filtered via operators."
-    _operators: OperatorsFilterFindManychatInput
-    messages: [chatMessagesInput]
 }
 
 input FilterFindManyprojectInput {
@@ -158,11 +137,6 @@ input FilterFindManyuserInput {
 }
 
 "For performance reason this type contains only *indexed* fields."
-input OperatorsFilterFindManychatInput {
-    _id: _idOperatorsFilterFindManychatInput
-}
-
-"For performance reason this type contains only *indexed* fields."
 input OperatorsFilterFindManyprojectInput {
     _id: _idOperatorsFilterFindManyprojectInput
 }
@@ -170,16 +144,6 @@ input OperatorsFilterFindManyprojectInput {
 "For performance reason this type contains only *indexed* fields."
 input OperatorsFilterFindManyuserInput {
     _id: _idOperatorsFilterFindManyuserInput
-}
-
-input _idOperatorsFilterFindManychatInput {
-    gt: MongoID
-    gte: MongoID
-    in: [MongoID]
-    lt: MongoID
-    lte: MongoID
-    ne: MongoID
-    nin: [MongoID]
 }
 
 input _idOperatorsFilterFindManyprojectInput {
@@ -200,14 +164,6 @@ input _idOperatorsFilterFindManyuserInput {
     lte: MongoID
     ne: MongoID
     nin: [MongoID]
-}
-
-input chatMessagesInput {
-    _id: MongoID
-    createdAt: Date
-    message: String
-    senderId: MongoID
-    updatedAt: Date
 }
 
 input projectStepsInput {

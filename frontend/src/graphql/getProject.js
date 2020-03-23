@@ -4,6 +4,7 @@ export const GET_PROJECT = gql`
     query getProject($_id: MongoID!) {
         project(_id: $_id) {
             _id
+            chatId
             name
             participants {
                 fullname

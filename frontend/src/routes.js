@@ -35,7 +35,7 @@ const Typography = React.lazy(() => import('./views/Theme/Typography'));
 const Widgets = React.lazy(() => import('./views/Widgets/Widgets'));
 const Users = React.lazy(() => import('./views/Users/Users'));
 const User = React.lazy(() => import('./views/Users/User'));
-const Chat = React.lazy(() => import('./views/Chat/Chat'));
+// const Chat = React.lazy(() => import('frontend/src/views/Project/Chat'));
 const Projects = React.lazy(() => import('./views/Projects/Projects'));
 const Project = React.lazy(() => import('./views/Project/Project'));
 
@@ -82,7 +82,7 @@ const routes = [
   { path: '/charts', name: 'Charts', component: Charts },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
-  { path: '/chat', exact: true, name: 'User Details', component: Chat },
+  // { path: '/chat', exact: true, name: 'User Details', component: Chat },
   { path: '/projects', exact: true,  name: 'Projects', component: Projects },
   { path: '/projects/:id', exact: true,  name: 'Project', component: Project },
 ];

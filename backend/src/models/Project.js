@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import {composeWithMongoose} from "graphql-compose-mongoose";
 import {UserGQL} from "./User";
+import {Chat} from "./Chat";
 
 const ProjectStory = new mongoose.Schema({
     name: 'string',
@@ -14,11 +15,20 @@ const ProjectStep = new mongoose.Schema({
     stories: [ProjectStory]
 }, {timestamps: true});
 
-const Project = mongoose.model('project', new mongoose.Schema({
+const ProjectSchema = new mongoose.Schema({
     name: 'string',
+    chatId: {type: mongoose.Schema.Types.ObjectId, ref: 'chat'},
     participantIds: [{type: mongoose.Schema.Types.ObjectId, ref: 'user'}],
     steps: [ProjectStep]
-}, {timestamps: true}));
+}, {timestamps: true});
+
+ProjectSchema.pre('save', async function (next) {
+    const chat = await new Chat({}).save();
+    this.chatId = chat._id;
+    next();
+});
+
+const Project = mongoose.model('project', ProjectSchema);
 
 const ProjectGQL = composeWithMongoose(Project, {});
 
@@ -34,7 +44,7 @@ ProjectGQL.addRelation(
 export {Project, ProjectGQL, ProjectStep, ProjectStory}
 
 new Project({
-    name: 'Тестовый проект',
+    name: 'Тестовый проект2',
     participantIds: ['5e78c738a1975e3137a3c1cc'],
     steps: [{
         name: "Тестовый этап",

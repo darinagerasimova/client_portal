@@ -24,7 +24,7 @@ schemaComposer.Query.addFields({
     project: ProjectGQL.getResolver('findById'),
     users: UserGQL.getResolver('findMany'),
     user: UserGQL.getResolver('findById'),
-    chats: ChatGQL.getResolver('findMany', [authMiddleware]),
+    chat: ChatGQL.getResolver('findById', [authMiddleware]),
     me: UserGQL.getResolver('me', [authMiddleware]),
 });
 schemaComposer.Mutation.addFields({
