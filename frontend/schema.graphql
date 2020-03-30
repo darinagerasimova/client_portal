@@ -20,7 +20,7 @@ type Query {
     me: user
     project(_id: MongoID!): project
     projects(
-        #Filter by fields
+        "Filter by fields"
         filter: FilterFindManyprojectInput,
         limit: Int = 1000,
         skip: Int,
@@ -28,7 +28,7 @@ type Query {
     ): [project]
     user(_id: MongoID!): user
     users(
-        #Filter by fields
+        "Filter by fields"
         filter: FilterFindManyuserInput,
         limit: Int = 1000,
         skip: Int,
@@ -56,6 +56,7 @@ type chatMessages {
 
 type project {
     _id: MongoID!
+    chatId: MongoID
     createdAt: Date
     name: String
     participantIds: [MongoID]
@@ -69,8 +70,19 @@ type projectSteps {
     createdAt: Date
     dateEnd: Date
     dateStart: Date
+    files: [projectStepsFiles]
     name: String
     stories: [projectStepsStories]
+    updatedAt: Date
+}
+
+type projectStepsFiles {
+    _id: MongoID
+    createdAt: Date
+    extension: String
+    fileKey: String
+    name: String
+    size: Float
     updatedAt: Date
 }
 
@@ -114,6 +126,7 @@ input FilterFindManyprojectInput {
     _ids: [MongoID]
     "List of *indexed* fields that can be filtered via operators."
     _operators: OperatorsFilterFindManyprojectInput
+    chatId: MongoID
     createdAt: Date
     name: String
     participantIds: [MongoID]
@@ -166,11 +179,22 @@ input _idOperatorsFilterFindManyuserInput {
     nin: [MongoID]
 }
 
+input projectStepsFilesInput {
+    _id: MongoID
+    createdAt: Date
+    extension: String
+    fileKey: String
+    name: String
+    size: Float
+    updatedAt: Date
+}
+
 input projectStepsInput {
     _id: MongoID
     createdAt: Date
     dateEnd: Date
     dateStart: Date
+    files: [projectStepsFilesInput]
     name: String
     stories: [projectStepsStoriesInput]
     updatedAt: Date

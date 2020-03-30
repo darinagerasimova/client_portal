@@ -149,12 +149,6 @@ export default {
     //       icon: 'icon-cursor',
     //     },
     //   ],
-    // },
-    {
-      name: 'Чат',
-      url: '/chat',
-      icon: 'icon-bubbles',
-    },
     {
       name: 'Пользователи',
       url: '/users',

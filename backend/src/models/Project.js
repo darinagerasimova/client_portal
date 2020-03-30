@@ -8,10 +8,18 @@ const ProjectStory = new mongoose.Schema({
     estimate: 'number'
 }, {timestamps: true});
 
+const ProjestStepFile = new mongoose.Schema({
+    name: 'string',
+    extension: 'string',
+    size: 'number',
+    fileKey: 'string',
+}, {timestamps: true});
+
 const ProjectStep = new mongoose.Schema({
     name: 'string',
     dateStart: 'date',
     dateEnd: 'date',
+    files: [ProjestStepFile],
     stories: [ProjectStory]
 }, {timestamps: true});
 
@@ -50,6 +58,17 @@ new Project({
         name: "Тестовый этап",
         dateStart: '2020-01-01',
         dateEnd: '2020-02-01',
+        files: [{
+            name: "Договор",
+            extension: 'pdf',
+            size: '1500000',
+            fileKey: 'http://s3.int.robotbull.com/client-portal/dogovor.pdf',
+        }, {
+            name: "Макет",
+            extension: 'jpg',
+            size: '143000',
+            fileKey: 'http://s3.int.robotbull.com/client-portal/ebc7198dad0ee9e7942dab8d411befb2.jpg',
+        }],
         stories: [{
             name: "Тестовая история",
             estimate: 10

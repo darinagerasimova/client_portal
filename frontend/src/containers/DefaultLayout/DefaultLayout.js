@@ -18,7 +18,7 @@ import {
 // sidebar nav config
 import navigation from '../../_nav';
 // routes config
-import routes from '../../routes';
+import routes, {projectRoutes} from '../../routes';
 
 const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
@@ -52,7 +52,7 @@ class DefaultLayout extends Component {
             <AppSidebarMinimizer />
           </AppSidebar>
           <main className="main">
-            <AppBreadcrumb appRoutes={routes} router={router}/>
+            <AppBreadcrumb appRoutes={[...projectRoutes, ...routes]} router={router}/>
             <Container fluid>
               <Suspense fallback={this.loading()}>
                 <Switch>

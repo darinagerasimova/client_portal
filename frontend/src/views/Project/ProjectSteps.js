@@ -3,6 +3,18 @@ import {Badge, Card, CardBody, CardHeader, Table} from 'reactstrap';
 import moment from "moment";
 import {Link} from "react-router-dom";
 
+function ProjectRow(props) {
+    const step = props.step;
+    const projectLink = `/projects/${props.projectId}/${step._id}`;
+    return (
+        <tr key={step._id}>
+            <td><Link to={projectLink}>{step.name}</Link></td>
+            <td>{moment(step.dateEnd).format("DD.MM.YYYY")}</td>
+            <td><Badge color={'success'}>В работе</Badge></td>
+        </tr>
+    )
+}
+
 export default function ProjectSteps(props) {
     return (
         <Card>
@@ -19,11 +31,7 @@ export default function ProjectSteps(props) {
                     </tr>
                     </thead>
                     <tbody>
-                    {props.steps.map(step => <tr key={step._id}>
-                        <td>{step.name}</td>
-                        <td>{moment(step.dateEnd).format("DD.MM.YYYY")}</td>
-                        <td><Badge color={'success'}>В работе</Badge></td>
-                    </tr>)}
+                    {props.steps.map(step => <ProjectRow step={step} projectId={props.projectId}/>)}
                     </tbody>
                 </Table>
             </CardBody>
