@@ -8,7 +8,7 @@ const ProjectStory = new mongoose.Schema({
     estimate: 'number'
 }, {timestamps: true});
 
-const ProjestStepFile = new mongoose.Schema({
+const ProjectStepFile = new mongoose.Schema({
     name: 'string',
     extension: 'string',
     size: 'number',
@@ -19,7 +19,7 @@ const ProjectStep = new mongoose.Schema({
     name: 'string',
     dateStart: 'date',
     dateEnd: 'date',
-    files: [ProjestStepFile],
+    files: [ProjectStepFile],
     stories: [ProjectStory]
 }, {timestamps: true});
 
