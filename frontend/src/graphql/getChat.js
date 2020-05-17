@@ -10,6 +10,7 @@ export const GET_CHAT = gql`
             messages {
                 _id
                 message
+                fileUrl
                 createdAt
                 sender {
                     _id

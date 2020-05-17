@@ -6,8 +6,9 @@ import {ApolloLink} from 'apollo-link';
 import { split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
+const { createUploadLink } = require('apollo-upload-client');
 
-const httpLink = new HttpLink({
+const httpLink = createUploadLink({
     uri: 'http://localhost:5500/graphql',
     credentials: 'same-origin'
 });

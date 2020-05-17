@@ -11,6 +11,7 @@ type LoginData {
 }
 
 type Mutation {
+    addFileMessage(chatId: MongoID!, file: Upload): String
     addMessage(chatId: MongoID!, message: String!): String
     login(password: String!, username: String!): LoginData
 }
@@ -48,6 +49,7 @@ type chat {
 type chatMessages {
     _id: MongoID
     createdAt: Date
+    fileUrl: String
     message: String
     sender: user
     senderId: MongoID
@@ -213,3 +215,6 @@ input projectStepsStoriesInput {
 scalar MongoID
 
 scalar Date
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload

@@ -5,6 +5,7 @@ import {LoginGQL} from "./shemaTypes/login";
 import {UserGQL} from "./models/User";
 import {ProjectGQL} from "./models/Project";
 import pubsub from './subscriptionConfig'
+import {GraphQLUpload} from 'apollo-server-express';
 
 const authMiddleware = async (resolve, source, args, context, info) => {
     try {
@@ -19,6 +20,7 @@ const authMiddleware = async (resolve, source, args, context, info) => {
     }
 };
 
+schemaComposer.add('Upload', GraphQLUpload);
 schemaComposer.Query.addFields({
     projects: ProjectGQL.getResolver('findMany'),
     project: ProjectGQL.getResolver('findById'),
@@ -29,6 +31,7 @@ schemaComposer.Query.addFields({
 });
 schemaComposer.Mutation.addFields({
     addMessage: ChatGQL.getResolver('addMessage', [authMiddleware]),
+    addFileMessage: ChatGQL.getResolver('addFileMessage', [authMiddleware]),
     login: LoginGQL.getResolver('login'),
 });
 schemaComposer.Subscription.addFields({

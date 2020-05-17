@@ -32,6 +32,6 @@ const validatePassword = async (user, password) => {
     return bcrypt.compareSync(password, user.password);
 };
 
-// createUser("admin", "test", "Иван Иванов", USER_TYPE_EMPLOYEE);
+// createUser("admin1", "test", "Василий Попов", USER_TYPE_EMPLOYEE);
 
 export {UserGQL, createUser, validatePassword};

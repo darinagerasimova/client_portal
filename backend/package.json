@@ -12,17 +12,22 @@
   "devDependencies": {
     "nodemon": "^2.0.2"
   },
+  "resolutions": {
+    "**/**/fs-capacitor": "^6.0.0"
+  },
   "dependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
-    "apollo-server-express": "^2.10.1",
+    "apollo-server-express": "^2.13.0",
+    "aws-sdk": "^2.673.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "graphql-compose": "^7.11.0",
     "graphql-compose-mongoose": "^7.3.3",
+    "graphql-upload": "^10.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.1",
     "passport": "^0.4.1",

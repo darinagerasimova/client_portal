@@ -21,6 +21,10 @@ img {
     overflow: hidden;
 }
 
+.inbox_msg.active {
+    border: 1px solid #275adb;
+}
+
 .top_spac {
     margin: 20px 0 0;
 }
@@ -179,7 +183,7 @@ img {
     width: 46%;
 }
 
-.input_msg_write input {
+.input_msg_write input, .input_msg_write div {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
     border: medium none;
     color: #4c4c4c;
