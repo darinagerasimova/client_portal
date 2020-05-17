@@ -39,8 +39,8 @@ export default function Login(props) {
                             <Card className="p-4">
                                 <CardBody>
                                     <Form onSubmit={handleSubmit(onSubmit)}>
-                                        <h1>Login</h1>
-                                        <p className="text-muted">Sign In to your account</p>
+                                        <h1>Вход</h1>
+                                        <p className="text-muted">Войдите в свой аккаунт</p>
                                         <FormGroup>
                                             <InputGroup className="mb-3">
                                                 <InputGroupAddon addonType="prepend">
@@ -49,7 +49,7 @@ export default function Login(props) {
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="text"
-                                                       placeholder="Username"
+                                                       placeholder="Логин"
                                                        name="username"
                                                        autoComplete="username"
                                                        innerRef={register({required: true})}
@@ -65,7 +65,7 @@ export default function Login(props) {
                                                     </InputGroupText>
                                                 </InputGroupAddon>
                                                 <Input type="password"
-                                                       placeholder="Password"
+                                                       placeholder="Пароль"
                                                        autoComplete="current-password"
                                                        name="password"
                                                        innerRef={register({required: true})}
@@ -77,7 +77,7 @@ export default function Login(props) {
                                         </FormGroup>
                                         <Row>
                                             <Col xs="6">
-                                                <Button color="primary" type="submit" className="px-4">Login</Button>
+                                                <Button color="primary" type="submit" className="px-4">Войти</Button>
                                             </Col>
                                         </Row>
                                     </Form>

@@ -36,7 +36,7 @@ export default function Chat(props) {
     return (
         <Card>
             <CardHeader>
-                <i className="fa fa-align-justify"></i><strong>Chat</strong>
+                <i className="fa fa-align-justify"></i><strong>Чат</strong>
             </CardHeader>
             <CardBody>
                 <div className="container">

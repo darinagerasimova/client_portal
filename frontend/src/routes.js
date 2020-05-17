@@ -80,16 +80,16 @@ const routes = [
     {path: '/notifications/modals', name: 'Modals', component: Modals},
     {path: '/widgets', name: 'Widgets', component: Widgets},
     {path: '/charts', name: 'Charts', component: Charts},
-    {path: '/users', exact: true, name: 'Users', component: Users},
-    {path: '/users/:id', exact: true, name: 'User Details', component: User},
+    {path: '/users', exact: true, name: 'Пользователи', component: Users},
+    {path: '/users/:id', exact: true, name: 'Информация о пользователе', component: User},
     // { path: '/chat', exact: true, name: 'User Details', component: Chat },
     {path: '/projects', exact: true, name: 'Проекты', component: Projects},
     {path: '/projects/:id', exact: false, name: 'Просмотр проекта', component: Project},
 ];
 
 export const projectRoutes = [
-    {path: '/projects/:id', exact: true, name: 'Основная информация', component: Project},
-    {path: '/projects/:id/:stepId', exact: false, name: 'Детали этапа', component: Project},
+    {path: '/projects/:id', exact: true, name: 'Информация о проекте', component: Project},
+    {path: '/projects/:id/:stepId', exact: false, name: 'Информация об этапе', component: Project},
 ];
 
 export default routes;
